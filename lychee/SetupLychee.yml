@@ -1,0 +1,42 @@
+# Run with
+# ansible-playbook SetupLychee.yml
+# https://lycheeorg.github.io/
+
+---
+- name: Setup Lychee
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/lychee
+      - /mnt/DockerSwarmData/lychee/config
+      - /mnt/DockerSwarmData/lychee/pictures
+
+  - name: Create Database
+    community.mysql.mysql_db:
+      name:
+        - lychee
+      state: present
+
+  - name: Grant user access
+    community.mysql.mysql_user:
+      state: present
+      name: lychee
+      password: dbpassword 
+      priv:
+        'lychee.*': 'ALL,GRANT'
+
+  - name: Deploy Lychee from a compose file
+    docker_stack:
+      state: present
+      name: lychee
+      compose:
+        - docker-compose.yml
