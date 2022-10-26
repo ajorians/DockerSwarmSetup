@@ -14,7 +14,7 @@
       state: directory
       owner: ajorians
       group: users
-      mode: 1777
+      mode: 0777
     loop:
       - /mnt/DockerSwarmData/photoshow
       - /mnt/DockerSwarmData/photoshow/config

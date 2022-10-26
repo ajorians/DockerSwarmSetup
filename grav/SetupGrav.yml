@@ -13,7 +13,7 @@
       state: directory
       owner: ajorians
       group: users
-      mode: 1777
+      mode: 0777
     loop:
       - /mnt/DockerSwarmData/grav
       - /mnt/DockerSwarmData/grav/config
