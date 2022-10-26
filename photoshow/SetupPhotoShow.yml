@@ -1,0 +1,29 @@
+# Run with
+# ansible-playbook SetupPhotoShow.yml
+# https://github.com/thibaud-rohmer/PhotoShow
+
+---
+- name: Setup PhotoShow
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 1777
+    loop:
+      - /mnt/DockerSwarmData/photoshow
+      - /mnt/DockerSwarmData/photoshow/config
+      - /mnt/DockerSwarmData/photoshow/pictures
+      - /mnt/DockerSwarmData/photoshow/thumbs
+
+  - name: Deploy PhotoShow from a compose file
+    docker_stack:
+      state: present
+      name: photoshow
+      compose:
+        - docker-compose.yml

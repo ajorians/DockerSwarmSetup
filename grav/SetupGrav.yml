@@ -9,22 +9,14 @@
 
   - name: Create directory for data
     file:
-      path: /mnt/DockerSwarmData/grav/config
+      path: "{{ item }}"
       state: directory
-
-  - name: Check if directory for data exists
-    stat:
-      path: /mnt/DockerSwarmData/grav/config
-    register: grav_configdata
-
-  - name: Give permissions to data
-    ansible.builtin.file:
-      path: /mnt/DockerSwarmData/grav
-      recurse: yes
       owner: ajorians
       group: users
-      mode: '1777'
-    when: grav_configdata.stat.exists
+      mode: 1777
+    loop:
+      - /mnt/DockerSwarmData/grav
+      - /mnt/DockerSwarmData/grav/config
 
   - name: Deploy grav from a compose file
     docker_stack:

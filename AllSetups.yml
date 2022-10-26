@@ -3,4 +3,5 @@
 
 ---
 - import_playbook: grav/SetupGrav.yml
+- import_playbook: photoshow/SetupPhotoShow.yml
 

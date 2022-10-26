@@ -1,0 +1,22 @@
+---
+version: "3.0"
+services:
+  photoshow:
+    image: lscr.io/linuxserver/photoshow:latest
+    container_name: photoshow
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Detroit
+    volumes:
+      - /opt/DockerSwarmData/photoshow/config:/config
+      - /opt/DockerSwarmData/photoshow/pictures:/Pictures:ro
+      - /opt/DockerSwarmData/photoshow/thumbs:/Thumbs
+    ports:
+      - 5001:80
+    restart: unless-stopped
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client1
+
