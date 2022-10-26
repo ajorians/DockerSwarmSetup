@@ -17,9 +17,22 @@
       mode: 0777
     loop:
       - /mnt/DockerSwarmData/lychee
-      - /mnt/DockerSwarmData/lychee/mariadb
       - /mnt/DockerSwarmData/lychee/config
       - /mnt/DockerSwarmData/lychee/pictures
+
+  - name: Create Database
+    community.mysql.mysql_db:
+      name:
+        - lychee
+      state: present
+
+  - name: Grant user access
+    community.mysql.mysql_user:
+      state: present
+      name: lychee
+      password: dbpassword 
+      priv:
+        'lychee.*': 'ALL,GRANT'
 
   - name: Deploy Lychee from a compose file
     docker_stack:
