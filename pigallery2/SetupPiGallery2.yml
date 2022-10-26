@@ -1,0 +1,31 @@
+# Run with
+# ansible-playbook SetupPiGallery.yml
+# https://github.com/bpatrik/pigallery2
+
+---
+- name: Setup PiGallery2
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 1777
+    loop:
+      - /mnt/DockerSwarmData/pigallery2
+      - /mnt/DockerSwarmData/pigallery2/nginx
+      - /mnt/DockerSwarmData/pigallery2/config
+      - /mnt/DockerSwarmData/pigallery2/db-data
+      - /mnt/DockerSwarmData/pigallery2/images
+      - /mnt/DockerSwarmData/pigallery2/tmp
+
+  - name: Deploy PiGallery2 from a compose file
+    docker_stack:
+      state: present
+      name: pigallery2
+      compose:
+        - docker-compose.yml
