@@ -1,0 +1,34 @@
+# Run with
+# ansible-playbook SetupGrav.yml
+
+---
+- name: Setup Grav
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: /mnt/DockerSwarmData/grav/config
+      state: directory
+
+  - name: Check if directory for data exists
+    stat:
+      path: /mnt/DockerSwarmData/grav/config
+    register: grav_configdata
+
+  - name: Give permissions to data
+    ansible.builtin.file:
+      path: /mnt/DockerSwarmData/grav
+      recurse: yes
+      owner: ajorians
+      group: users
+      mode: '1777'
+    when: grav_configdata.stat.exists
+
+  - name: Deploy grav from a compose file
+    docker_stack:
+      state: present
+      name: grav
+      compose:
+        - docker-compose.yml

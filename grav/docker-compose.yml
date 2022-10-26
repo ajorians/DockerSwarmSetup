@@ -1,0 +1,19 @@
+---
+version: "3"
+services:
+  grav:
+    image: lscr.io/linuxserver/grav:latest
+    container_name: grav
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+    volumes:
+      - /opt/DockerSwarmData/grav/config:/config
+    ports:
+      - 5000:80
+    restart: unless-stopped
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client1

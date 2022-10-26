@@ -1,0 +1,6 @@
+# Run with
+# ansible-playbook -i inventory.ini AllSetups.yml
+
+---
+- import_playbook: grav/SetupGrav.yml
+
