@@ -1,9 +1,9 @@
 # Run with
-# ansible-playbook SetupLychee.yml
-# https://lycheeorg.github.io/
+# ansible-playbook SetupPiwigo.yml
+# http://piwigo.org/
 
 ---
-- name: Setup Lychee
+- name: Setup Piwigo
   hosts: localhost
   connection: local
   tasks:
@@ -16,28 +16,28 @@
       group: users
       mode: 0777
     loop:
-      - /mnt/DockerSwarmData/lychee
-      - /mnt/DockerSwarmData/lychee/config
-      - /mnt/DockerSwarmData/lychee/pictures
+      - /mnt/DockerSwarmData/piwigo
+      - /mnt/DockerSwarmData/piwigo/config
+      - /mnt/DockerSwarmData/piwigo/gallery
 
   - name: Create Database
     community.mysql.mysql_db:
       name:
-        - lychee
+        - piwigo
       state: present
 
   - name: Grant user access
     community.mysql.mysql_user:
       state: present
-      name: lychee
+      name: piwigo
       host: '%'
-      password: dbpassword 
+      password: dbpassword
       priv:
-        'lychee.*': 'ALL,GRANT'
+        'piwigo.*': 'ALL,GRANT'
 
-  - name: Deploy Lychee from a compose file
+  - name: Deploy Piwigo from a compose file
     docker_stack:
       state: present
-      name: lychee
+      name: piwigo
       compose:
         - docker-compose.yml

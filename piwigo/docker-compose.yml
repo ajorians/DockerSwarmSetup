@@ -1,0 +1,20 @@
+version: "3"
+services:
+  piwigo:
+    image: lscr.io/linuxserver/piwigo:latest
+    container_name: piwigo
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Detroit
+    volumes:
+      - /opt/DockerSwarmData/piwigo/config:/config
+      - /opt/DockerSwarmData/piwigo/gallery:/gallery
+    ports:
+      - 5500:80
+    restart: unless-stopped
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client1
+

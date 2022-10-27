@@ -20,20 +20,6 @@
       - /mnt/DockerSwarmData/pixapop/config
       - /mnt/DockerSwarmData/pixapop/photos
 
-#  - name: Create Database
-#    community.mysql.mysql_db:
-#      name:
-#        - lychee
-#      state: present
-
-#  - name: Grant user access
-#    community.mysql.mysql_user:
-#      state: present
-#      name: lychee
-#      password: dbpassword 
-#      priv:
-#        'lychee.*': 'ALL,GRANT'
-
   - name: Deploy Pixapop from a compose file
     docker_stack:
       state: present
