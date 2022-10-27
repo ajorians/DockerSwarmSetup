@@ -1,0 +1,22 @@
+version: "3"
+services:
+  pixapop:
+    image: lscr.io/linuxserver/pixapop:latest
+    container_name: pixapop
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Detroit
+      - APP_USERNAME=admin #optional
+      - APP_PASSWORD=admin #optional
+    volumes:
+      - /opt/DockerSwarmData/pixapop/config:/config
+      - /opt/DockerSwarmData/pixapop/photos:/photos
+    ports:
+      - 5400:80
+    restart: unless-stopped
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client1
+

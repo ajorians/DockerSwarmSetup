@@ -1,0 +1,42 @@
+# Run with
+# ansible-playbook SetupPixapop.yml
+# https://github.com/bierdok/pixapop
+
+---
+- name: Setup Pixapop
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/pixapop
+      - /mnt/DockerSwarmData/pixapop/config
+      - /mnt/DockerSwarmData/pixapop/photos
+
+#  - name: Create Database
+#    community.mysql.mysql_db:
+#      name:
+#        - lychee
+#      state: present
+
+#  - name: Grant user access
+#    community.mysql.mysql_user:
+#      state: present
+#      name: lychee
+#      password: dbpassword 
+#      priv:
+#        'lychee.*': 'ALL,GRANT'
+
+  - name: Deploy Pixapop from a compose file
+    docker_stack:
+      state: present
+      name: pixapop
+      compose:
+        - docker-compose.yml
