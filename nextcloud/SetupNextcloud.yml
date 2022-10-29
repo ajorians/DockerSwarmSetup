@@ -1,0 +1,28 @@
+# Run with
+# ansible-playbook SetupNextcloud.yml
+# https://nextcloud.com/ 
+
+---
+- name: Setup Nextcloud
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/nextcloud
+      - /mnt/DockerSwarmData/nextcloud/config
+      - /mnt/DockerSwarmData/nextcloud/data
+
+  - name: Deploy Nextcloud from a compose file
+    docker_stack:
+      state: present
+      name: nextcloud
+      compose:
+        - docker-compose.yml
