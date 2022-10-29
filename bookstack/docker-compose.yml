@@ -1,0 +1,22 @@
+version: "3"
+services:
+  bookstack:
+    image: lscr.io/linuxserver/bookstack
+    container_name: bookstack
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - APP_URL=https://bookstack.orians.org
+      - DB_HOST=host
+      - DB_USER=bookstack
+      - DB_PASS=dbpassword
+      - DB_DATABASE=bookstackapp
+    volumes:
+      - /opt/DockerSwarmData/bookstack/config:/config
+    ports:
+      - 5800:80
+    restart: unless-stopped
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client2

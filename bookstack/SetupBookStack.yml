@@ -1,0 +1,44 @@
+# Run with
+# ansible-playbook SetupBookstack.yml
+# https://github.com/BookStackApp/BookStack
+
+---
+- name: Setup BookStack
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/bookstack
+      - /mnt/DockerSwarmData/bookstack/config
+
+  - name: Create Database
+    community.mysql.mysql_db:
+      name:
+        - bookstackapp
+      state: present
+
+  - name: Grant user access
+    community.mysql.mysql_user:
+      state: present
+      name: bookstack
+      host: '%'
+      password: dbpassword 
+      priv:
+        'bookstackapp.*': 'ALL,GRANT'
+
+  - name: Deploy BookStack from a compose file
+    docker_stack:
+      state: present
+      name: bookstack
+      compose:
+        - docker-compose.yml
+
+# Default username/password is admin@admin.com and password.  Change it.
