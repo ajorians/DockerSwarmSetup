@@ -1,0 +1,44 @@
+# Run with
+# ansible-playbook SetupProjectSend.yml
+# https://www.projectsend.org/
+
+---
+- name: Setup ProjectSend
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/projectsend
+      - /mnt/DockerSwarmData/projectsend/config
+      - /mnt/DockerSwarmData/projectsend/data
+
+  - name: Create Database
+    community.mysql.mysql_db:
+      name:
+        - projectsend
+      state: present
+
+  - name: Grant user access
+    community.mysql.mysql_user:
+      state: present
+      name: projectuser
+      host: '%'
+      password: dbpassword
+      priv:
+        'projectsend.*': 'ALL,GRANT'
+
+  - name: Deploy ProjectSend from a compose file
+    docker_stack:
+      state: present
+      name: projectsend
+      compose:
+        - docker-compose.yml
+

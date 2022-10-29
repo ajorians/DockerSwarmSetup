@@ -10,4 +10,5 @@
 - import_playbook: nextcloud/SetupNextcloud.yml
 - import_playbook: wikijs/SetupWikijs.yml
 - import_playbook: bookstack/SetupBookStack.yml
+- import_playbook: projectsend/SetupProjectSend.yml
 

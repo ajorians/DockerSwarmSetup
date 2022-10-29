@@ -1,0 +1,21 @@
+version: "3"
+services:
+  projectsend:
+    image: lscr.io/linuxserver/projectsend:latest
+    container_name: projectsend
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - MAX_UPLOAD=5000
+    volumes:
+      - /opt/DockerSwarmData/projectsend/config:/config
+      - /opt/DockerSwarmData/projectsend/data:/data
+    ports:
+      - 6000:80
+      - 6001:443
+    restart: unless-stopped
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client2
