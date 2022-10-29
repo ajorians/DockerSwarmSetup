@@ -1,0 +1,20 @@
+version: "3"
+services:
+  wikijs:
+    image: lscr.io/linuxserver/wikijs:latest
+    container_name: wikijs
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Detroit
+    volumes:
+      - /opt/DockerSwarmData/wikijs/config:/config
+      - /opt/DockerSwarmData/wikijs/data:/data
+    ports:
+      - 5700:3000
+    restart: unless-stopped
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client2
+

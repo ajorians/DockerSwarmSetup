@@ -1,0 +1,28 @@
+# Run with
+# ansible-playbook SetupWikijs.yml
+# https://github.com/Requarks/wiki
+
+---
+- name: Setup WikiJS
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/wikijs
+      - /mnt/DockerSwarmData/wikijs/config
+      - /mnt/DockerSwarmData/wikijs/data
+
+  - name: Deploy WikiJS from a compose file
+    docker_stack:
+      state: present
+      name: wikijs
+      compose:
+        - docker-compose.yml
