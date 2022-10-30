@@ -12,4 +12,5 @@
 - import_playbook: bookstack/SetupBookStack.yml
 - import_playbook: projectsend/SetupProjectSend.yml
 - import_playbook: changedetection/SetupChangeDetection.yml
+- import_playbook: headphones/SetupHeadphones.yml
 

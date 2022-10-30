@@ -1,0 +1,30 @@
+# Run with
+# ansible-playbook SetupHeadphones.yml
+# https://github.com/rembo10/headphones
+
+---
+- name: Setup Headphones
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/headphones
+      - /mnt/DockerSwarmData/headphones/config
+      - /mnt/DockerSwarmData/headphones/downloads
+      - /mnt/DockerSwarmData/headphones/music
+
+  - name: Deploy Headphones from a compose file
+    docker_stack:
+      state: present
+      name: headphones
+      compose:
+        - docker-compose.yml
+

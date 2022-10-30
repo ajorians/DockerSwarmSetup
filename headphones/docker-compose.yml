@@ -1,0 +1,20 @@
+version: "3"
+services:
+  headphones:
+    image: lscr.io/linuxserver/headphones:latest
+    container_name: headphones
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /opt/DockerSwarmData/headphones/config:/config
+      - /opt/DockerSwarmData/headphones/downloads:/downloads
+      - /opt/DockerSwarmData/headphones/music:/music
+    ports:
+      - 6300:8181
+    restart: unless-stopped
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client2
