@@ -1,0 +1,33 @@
+# Run with
+# ansible-playbook SetupCalibre.yml
+# https://github.com/janeczku/calibre-web
+
+---
+- name: Setup Calibre-Web
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/calibre
+      - /mnt/DockerSwarmData/calibre/config
+      - /mnt/DockerSwarmData/calibre/books
+      - /mnt/DockerSwarmData/calibre/data
+      - /mnt/DockerSwarmData/calibre/library
+
+  - name: Deploy Calibre-Web from a compose file
+    docker_stack:
+      state: present
+      name: calibre
+      compose:
+        - docker-compose.yml
+
+# then goto the 6401 port and setup a config database
+# then goto the 6400 port.  Default username/pass: admin/admin123
