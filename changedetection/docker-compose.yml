@@ -1,0 +1,19 @@
+version: "3"
+services:
+  changedetection:
+    image: lscr.io/linuxserver/changedetection.io:latest
+    container_name: changedetection
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - BASE_URL= https://changedetection.orians.org
+    volumes:
+      - /opt/DockerSwarmData/changedetection/config:/config
+    ports:
+      - 6200:5000
+    restart: unless-stopped
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client2

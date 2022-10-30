@@ -1,0 +1,28 @@
+# Run with
+# ansible-playbook SetupChangeDetection.yml
+# https://github.com/dgtlmoon/changedetection.io
+
+---
+- name: Setup ChangeDetection.io
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/changedetection
+      - /mnt/DockerSwarmData/changedetection/config
+
+  - name: Deploy ChangeDetection.io from a compose file
+    docker_stack:
+      state: present
+      name: changedetection
+      compose:
+        - docker-compose.yml
+
