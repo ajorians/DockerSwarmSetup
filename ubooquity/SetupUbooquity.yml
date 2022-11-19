@@ -1,0 +1,30 @@
+# Run with
+# ansible-playbook SetupUbooquity.yml
+# https://vaemendis.net/ubooquity/
+
+---
+- name: Setup Ubooquity
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/ubooquity
+      - /mnt/DockerSwarmData/ubooquity/config
+      - /mnt/DockerSwarmData/ubooquity/books
+      - /mnt/DockerSwarmData/ubooquity/comics
+      - /mnt/DockerSwarmData/ubooquity/files
+
+  - name: Deploy Ubooquity from a compose file
+    docker_stack:
+      state: present
+      name: ubooquity
+      compose:
+        - docker-compose.yml
