@@ -1,0 +1,29 @@
+# Run with
+# ansible-playbook SetupEmby.yml
+# https://emby.media/
+
+---
+- name: Setup Emby
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/emby
+      - /mnt/DockerSwarmData/emby/config
+      - /mnt/DockerSwarmData/emby/tvshows
+      - /mnt/DockerSwarmData/emby/movies
+
+  - name: Deploy Emby from a compose file
+    docker_stack:
+      state: present
+      name: emby
+      compose:
+        - docker-compose.yml

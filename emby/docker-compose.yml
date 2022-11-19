@@ -1,0 +1,22 @@
+version: "3"
+services:
+  emby:
+    image: lscr.io/linuxserver/emby:latest
+    container_name: emby
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /opt/DockerSwarmData/emby/config:/config
+      - /opt/DockerSwarmData/emby/tvshows:/data/tvshows
+      - /opt/DockerSwarmData/emby//movies:/data/movies
+    ports:
+      - 6600:8096
+      - 6601:8920 #optional
+    restart: unless-stopped
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client1
+
