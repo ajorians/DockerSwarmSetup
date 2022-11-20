@@ -16,4 +16,5 @@
 - import_playbook: calibre/SetupCalibre.yml
 - import_playbook: ubooquity/SetupUbooquity.yml
 - import_playbook: emby/SetupEmby.yml
+- import_playbook: phpmyadmin/SetupPhpMyAdmin.yml
 

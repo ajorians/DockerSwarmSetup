@@ -1,0 +1,27 @@
+# Run with
+# ansible-playbook SetupPhpMyAdmin.yml
+# https://github.com/phpmyadmin/phpmyadmin/
+
+---
+- name: Setup PhpMyAdmin
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/phpmyadmin
+      - /mnt/DockerSwarmData/phpmyadmin/config
+
+  - name: Deploy PhpMyAdmin from a compose file
+    docker_stack:
+      state: present
+      name: phpmyadmin
+      compose:
+        - docker-compose.yml
