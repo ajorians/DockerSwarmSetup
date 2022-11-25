@@ -19,5 +19,6 @@
 - import_playbook: phpmyadmin/SetupPhpMyAdmin.yml
 - import_playbook: emulatorjs/SetupEmulatorJS.yml
 - import_playbook: deluge/SetupDeluge.yml
-- import_playbook: pidgin/SetupPidgin.yml
+# - import_playbook: pidgin/SetupPidgin.yml
+- import_playbook: snapdrop/SetupSnapdrop.yml
 

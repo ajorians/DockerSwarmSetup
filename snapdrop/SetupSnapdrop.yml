@@ -1,0 +1,27 @@
+# Run with
+# ansible-playbook SetupSnapdrop.yml
+# https://github.com/RobinLinus/snapdrop
+
+---
+- name: Setup Snapdrop
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/snapdrop
+      - /mnt/DockerSwarmData/snapdrop/config
+
+  - name: Deploy Snapdrop from a compose file
+    docker_stack:
+      state: present
+      name: snapdrop
+      compose:
+        - docker-compose.yml
