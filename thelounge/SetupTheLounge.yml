@@ -1,0 +1,27 @@
+# Run with
+# ansible-playbook SetupTheLounge.yml
+# https://thelounge.chat/
+
+---
+- name: Setup TheLounge
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/thelounge
+      - /mnt/DockerSwarmData/thelounge/config
+
+  - name: Deploy TheLounge from a compose file
+    docker_stack:
+      state: present
+      name: thelounge
+      compose:
+        - docker-compose.yml
