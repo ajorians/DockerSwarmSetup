@@ -1,0 +1,23 @@
+version: "3"
+services:
+  deluge:
+    image: lscr.io/linuxserver/deluge:latest
+    container_name: deluge
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - DELUGE_LOGLEVEL=error #optional
+    volumes:
+      - /opt/DockerSwarmData/deluge/config:/config
+      - /opt/DockerSwarmData/deluge/downloads:/downloads
+    ports:
+      - 7000:8112
+      - 6881:6881
+      - 6881:6881/udp
+    restart: unless-stopped
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client1
+

@@ -1,0 +1,28 @@
+# Run with
+# ansible-playbook SetupDeluge.yml
+# https://deluge-torrent.org/
+
+---
+- name: Setup Deluge
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/deluge
+      - /mnt/DockerSwarmData/deluge/config
+      - /mnt/DockerSwarmData/deluge/downloads
+
+  - name: Deploy Deluge from a compose file
+    docker_stack:
+      state: present
+      name: deluge
+      compose:
+        - docker-compose.yml

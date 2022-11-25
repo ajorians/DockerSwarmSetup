@@ -18,4 +18,5 @@
 - import_playbook: emby/SetupEmby.yml
 - import_playbook: phpmyadmin/SetupPhpMyAdmin.yml
 - import_playbook: emulatorjs/SetupEmulatorJS.yml
+- import_playbook: deluge/SetupDeluge.yml
 
