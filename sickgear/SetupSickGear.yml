@@ -1,0 +1,29 @@
+# Run with
+# ansible-playbook SetupSickGear.yml
+# https://github.com/sickgear/sickgear
+
+---
+- name: Setup SickGear
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/sickgear
+      - /mnt/DockerSwarmData/sickgear/config
+      - /mnt/DockerSwarmData/sickgear/tv
+      - /mnt/DockerSwarmData/sickgear/downloads
+
+  - name: Deploy SickGear from a compose file
+    docker_stack:
+      state: present
+      name: sickgear
+      compose:
+        - docker-compose.yml

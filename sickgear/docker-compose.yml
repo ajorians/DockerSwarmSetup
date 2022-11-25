@@ -1,0 +1,21 @@
+version: "3"
+services:
+  sickgear:
+    image: lscr.io/linuxserver/sickgear:latest
+    container_name: sickgear
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /opt/DockerSwarmData/sickgear/config:/config
+      - /opt/DockerSwarmData/sickgear/tv:/tv
+      - /opt/DockerSwarmData/sickgear/downloads:/downloads
+    ports:
+      - 7300:8081
+    restart: unless-stopped
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client2
+
