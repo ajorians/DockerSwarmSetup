@@ -1,0 +1,27 @@
+# Run with
+# ansible-playbook SetupHeimdall.yml
+# https://heimdall.site/
+
+---
+- name: Setup Heimdall
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/heimdall
+      - /mnt/DockerSwarmData/heimdall/config
+
+  - name: Deploy Heimdall from a compose file
+    docker_stack:
+      state: present
+      name: heimdall
+      compose:
+        - docker-compose.yml

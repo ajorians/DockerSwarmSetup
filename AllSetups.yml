@@ -22,4 +22,5 @@
 # - import_playbook: pidgin/SetupPidgin.yml
 - import_playbook: snapdrop/SetupSnapdrop.yml
 - import_playbook: sickgear/SetupSickGear.yml
+- import_playbook: heimdall/SetupHeimdall.yml
 
