@@ -1,0 +1,28 @@
+# Run with
+# ansible-playbook SetupEmulatorJS.yml
+# https://github.com/linuxserver/emulatorjs
+
+---
+- name: Setup EmulatorJS
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/emulatorjs
+      - /mnt/DockerSwarmData/emulatorjs/config
+      - /mnt/DockerSwarmData/emulatorjs/data
+
+  - name: Deploy EmulatorJS from a compose file
+    docker_stack:
+      state: present
+      name: emulatorjs
+      compose:
+        - docker-compose.yml

@@ -1,0 +1,23 @@
+version: "3"
+services:
+  emulatorjs:
+    image: lscr.io/linuxserver/emulatorjs:latest
+    container_name: emulatorjs
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - SUBFOLDER=/ #optional
+    volumes:
+      - /opt/DockerSwarmData/emulatorjs/config:/config
+      - /opt/DockerSwarmData/emulatorjs/data:/data
+    ports:
+      - 6800:3000
+      - 6801:80
+      - 6802:4001 #optional
+    restart: unless-stopped
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client2
+
