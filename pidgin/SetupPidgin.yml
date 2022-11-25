@@ -1,0 +1,27 @@
+# Run with
+# ansible-playbook SetupPidgin.yml
+# https://pidgin.im/
+
+---
+- name: Setup Pidgin
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/pidgin
+      - /mnt/DockerSwarmData/pidgin/config
+
+  - name: Deploy Pidgin efrom a compose file
+    docker_stack:
+      state: present
+      name: pidgin
+      compose:
+        - docker-compose.yml
