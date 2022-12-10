@@ -1,0 +1,20 @@
+version: "3"
+services:
+  babybuddy:
+    image: lscr.io/linuxserver/babybuddy:latest
+    container_name: babybuddy
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - CSRF_TRUSTED_ORIGINS=http://127.0.0.1:8000,https://babybuddy.orians.org
+    volumes:
+      - /opt/DockerSwarmData/babybuddy/config:/config
+    ports:
+      - 7900:8000
+    restart: unless-stopped
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client2
+

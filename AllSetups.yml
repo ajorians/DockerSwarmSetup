@@ -28,5 +28,6 @@
 - import_playbook: homeassistant/SetupHomeAssistant.yml
 - import_playbook: hedgedoc/SetupHedgedoc.yml
 - import_playbook: dokuwiki/SetupDokuwiki.yml
+- import_playbook: babybuddy/SetupBabybuddy.yml
 
 
