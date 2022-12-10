@@ -1,0 +1,20 @@
+version: "3"
+services:
+  dokuwiki:
+    image: lscr.io/linuxserver/dokuwiki:latest
+    container_name: dokuwiki
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /opt/DockerSwarmData/dokuwiki/config:/config
+    ports:
+      - 7800:80
+      - 7801:443 #optional
+    restart: unless-stopped
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client2
+

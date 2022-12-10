@@ -1,0 +1,27 @@
+# Run with
+# ansible-playbook SetupDokuwiki.yml
+# https://www.dokuwiki.org/dokuwiki/
+
+---
+- name: Setup DokuWiki
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/dokuwiki
+      - /mnt/DockerSwarmData/dokuwiki/config
+
+  - name: Deploy DokuWiki from a compose file
+    docker_stack:
+      state: present
+      name: dokuwiki
+      compose:
+        - docker-compose.yml
