@@ -26,3 +26,5 @@
 - import_playbook: thelounge/SetupTheLounge.yml
 - import_playbook: bazarr/SetupBazarr.yml
 - import_playbook: homeassistant/SetupHomeAssistant.yml
+- import_playbook: hedgedoc/SetupHedgedoc.yml
+

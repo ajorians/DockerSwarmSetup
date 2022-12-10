@@ -1,0 +1,44 @@
+# Run with
+# ansible-playbook SetupHedgedoc.yml
+# https://hedgedoc.org/
+
+---
+- name: Setup Hedgedoc
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/hedgedoc
+      - /mnt/DockerSwarmData/hedgedoc/config
+
+  - name: Create Database
+    community.mysql.mysql_db:
+      login_user: root
+      name:
+        - hedgedoc
+      state: present
+
+  - name: Grant user access
+    community.mysql.mysql_user:
+      login_user: root
+      state: present
+      name: hedgedoc
+      host: '%'
+      password: hedgepass
+      priv:
+        'hedgedoc.*': 'ALL,GRANT'
+
+  - name: Deploy Hedgedoc from a compose file
+    docker_stack:
+      state: present
+      name: hedgedoc
+      compose:
+        - docker-compose.yml
