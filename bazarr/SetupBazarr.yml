@@ -1,0 +1,29 @@
+# Run with
+# ansible-playbook SetupBazarr.yml
+# https://www.bazarr.media/
+
+---
+- name: Setup Bazarr
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/bazarr
+      - /mnt/DockerSwarmData/bazarr/config
+      - /mnt/DockerSwarmData/bazarr/movies
+      - /mnt/DockerSwarmData/bazarr/tv
+
+  - name: Deploy Bazarr from a compose file
+    docker_stack:
+      state: present
+      name: bazarr
+      compose:
+        - docker-compose.yml

@@ -24,4 +24,5 @@
 - import_playbook: sickgear/SetupSickGear.yml
 - import_playbook: heimdall/SetupHeimdall.yml
 - import_playbook: thelounge/SetupTheLounge.yml
-
+- import_playbook: bazarr/SetupBazarr.yml
+- import_playbook: homeassistant/SetupHomeAssistant.yml

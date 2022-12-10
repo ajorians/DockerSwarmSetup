@@ -1,0 +1,21 @@
+version: "3"
+services:
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /opt/DockerSwarmData/bazarr/config:/config
+      - /opt/DockerSwarmData/bazarr/movies:/movies #optional
+      - /opt/DockerSwarmData/bazarr/tv:/tv #optional
+    ports:
+      - 7500:6767
+    restart: unless-stopped
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client2
+

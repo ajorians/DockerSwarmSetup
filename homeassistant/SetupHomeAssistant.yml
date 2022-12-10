@@ -1,0 +1,27 @@
+# Run with
+# ansible-playbook SetupHomeAssistant.yml
+# https://www.home-assistant.io/
+
+---
+- name: Setup HomeAssistant
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/homeassistant
+      - /mnt/DockerSwarmData/homeassistant/config
+
+  - name: Deploy Homeassistant from a compose file
+    docker_stack:
+      state: present
+      name: homeassistant
+      compose:
+        - docker-compose.yml
