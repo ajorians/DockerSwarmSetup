@@ -1,0 +1,29 @@
+# Run with
+# ansible-playbook SetupMedusa.yml
+# https://pymedusa.com/
+
+---
+- name: Setup Medusa
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/medusa
+      - /mnt/DockerSwarmData/medusa/config
+      - /mnt/DockerSwarmData/medusa/downloads
+      - /mnt/DockerSwarmData/medusa/tv
+
+  - name: Deploy Medusa from a compose file
+    docker_stack:
+      state: present
+      name: medusa
+      compose:
+        - docker-compose.yml

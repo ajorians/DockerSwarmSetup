@@ -1,0 +1,21 @@
+version: "3"
+services:
+  medusa:
+    image: lscr.io/linuxserver/medusa:latest
+    container_name: medusa
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /opt/DockerSwarmData/medusa/config:/config
+      - /opt/DockerSwarmData/medusa/downloads:/downloads
+      - /opt/DockerSwarmData/medusa/tv:/tv
+    ports:
+      - 8000:8081
+    restart: unless-stopped
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client2
+
