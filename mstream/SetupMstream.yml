@@ -1,0 +1,28 @@
+# Run with
+# ansible-playbook SetupMstream.yml
+# https://mstream.io/
+
+---
+- name: Setup MStream
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/mstream
+      - /mnt/DockerSwarmData/mstream/config
+      - /mnt/DockerSwarmData/mstream/music
+
+  - name: Deploy Mstream from a compose file
+    docker_stack:
+      state: present
+      name: mstream
+      compose:
+        - docker-compose.yml

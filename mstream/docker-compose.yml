@@ -1,0 +1,20 @@
+version: "3"
+services:
+  mstream:
+    image: lscr.io/linuxserver/mstream:latest
+    container_name: mstream
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /opt/DockerSwarmData/mstream/config:/config
+      - /opt/DockerSwarmData/mstream/music:/music
+    ports:
+      - 8300:3000
+    restart: unless-stopped
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client2
+
