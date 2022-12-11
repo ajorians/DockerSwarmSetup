@@ -1,0 +1,29 @@
+# Run with
+# ansible-playbook SetupSabnzbd.yml
+# https://sabnzbd.org/
+
+---
+- name: Setup Sabnzbd
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/sabnzbd
+      - /mnt/DockerSwarmData/sabnzbd/config
+      - /mnt/DockerSwarmData/sabnzbd/downloads
+      - /mnt/DockerSwarmData/sabnzbd/incomplete
+
+  - name: Deploy Sabnzbd from a compose file
+    docker_stack:
+      state: present
+      name: sabnzbd
+      compose:
+        - docker-compose.yml

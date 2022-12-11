@@ -31,4 +31,5 @@
 - import_playbook: babybuddy/SetupBabybuddy.yml
 - import_playbook: medusa/SetupMedusa.yml
 - import_playbook: nzbhydra2/SetupNzbhydra2.yml
+- import_playbook: sabnzbd/SetupSabnzbd.yml 
 

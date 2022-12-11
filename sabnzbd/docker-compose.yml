@@ -1,0 +1,21 @@
+version: "3"
+services:
+  sabnzbd:
+    image: lscr.io/linuxserver/sabnzbd:latest
+    container_name: sabnzbd
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /opt/DockerSwarmData/sabnzbd/config:/config
+      - /opt/DockerSwarmData/sabnzbd/downloads:/downloads #optional
+      - /opt/DockerSwarmData/sabnzbd/incomplete:/incomplete-downloads #optional
+    ports:
+      - 8200:8080
+    restart: unless-stopped
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client2
+
