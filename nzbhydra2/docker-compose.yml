@@ -1,0 +1,20 @@
+version: "3"
+services:
+  nzbhydra2:
+    image: lscr.io/linuxserver/nzbhydra2:latest
+    container_name: nzbhydra2
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /opt/DockerSwarmData/nzbhydra2/config:/config
+      - /opt/DockerSwarmData/nzbhydra2/downloads:/downloads
+    ports:
+      - 8100:5076
+    restart: unless-stopped
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client2
+

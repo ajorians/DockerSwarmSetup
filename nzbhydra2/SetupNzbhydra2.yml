@@ -1,0 +1,28 @@
+# Run with
+# ansible-playbook SetupNzbhydra2.yml
+# https://github.com/theotherp/nzbhydra2
+
+---
+- name: Setup Nzbhydra2
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/nzbhydra2
+      - /mnt/DockerSwarmData/nzbhydra2/config
+      - /mnt/DockerSwarmData/nzbhydra2/downloads
+
+  - name: Deploy Nzbhydra2 from a compose file
+    docker_stack:
+      state: present
+      name: nzbhydra2
+      compose:
+        - docker-compose.yml
