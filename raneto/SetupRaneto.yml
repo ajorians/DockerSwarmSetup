@@ -1,0 +1,27 @@
+# Run with
+# ansible-playbook SetupRaneto.yml
+# https://raneto.com/
+
+---
+- name: Setup Raneto
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/raneto
+      - /mnt/DockerSwarmData/raneto/config
+
+  - name: Deploy Raneto from a compose file
+    docker_stack:
+      state: present
+      name: raneto
+      compose:
+        - docker-compose.yml
