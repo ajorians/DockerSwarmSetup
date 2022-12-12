@@ -1,0 +1,16 @@
+version: "3"
+services:
+  xbackbone:
+    image: lscr.io/linuxserver/xbackbone:latest
+    container_name: xbackbone
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Oslo
+    volumes:
+      - /opt/DockerSwarmData/xbackbone/config:/config
+    ports:
+      - 8400:80
+      - 8401:443
+    restart: unless-stopped
+

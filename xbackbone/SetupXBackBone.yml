@@ -1,0 +1,27 @@
+# Run with
+# ansible-playbook SetupXBackBone.yml
+# https://github.com/SergiX44/XBackBone
+
+---
+- name: Setup XBackBone
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/xbackbone
+      - /mnt/DockerSwarmData/xbackbone/config
+
+  - name: Deploy XBackBone from a compose file
+    docker_stack:
+      state: present
+      name: xbackbone
+      compose:
+        - docker-compose.yml
