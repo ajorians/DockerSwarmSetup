@@ -1,0 +1,19 @@
+version: "3"
+services:
+  mylar3:
+    image: lscr.io/linuxserver/mylar3:latest
+    container_name: mylar3
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - /opt/DockerSwarmData/mylar3/config:/config
+      - /opt/DockerSwarmData/mylar3/comics:/comics
+      - /opt/DockerSwarmData/mylar3/downloads:/downloads
+    ports:
+      - 8600:8090
+    restart: unless-stopped
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client2

@@ -1,0 +1,29 @@
+# Run with
+# ansible-playbook SetupMylar3.yml
+# https://github.com/mylar3/mylar3
+
+---
+- name: Setup Mylar3
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/mylar3
+      - /mnt/DockerSwarmData/mylar3/config
+      - /mnt/DockerSwarmData/mylar3/comics
+      - /mnt/DockerSwarmData/mylar3/downloads
+
+  - name: Deploy Mylar3 from a compose file
+    docker_stack:
+      state: present
+      name: mylar3
+      compose:
+        - docker-compose.yml

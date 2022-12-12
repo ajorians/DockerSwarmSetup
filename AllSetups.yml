@@ -35,4 +35,5 @@
 - import_playbook: mstream/SetupMstream.yml
 - import_playbook: xbackbone/SetupXBackBone.yml
 - import_playbook: grocy/SetupGrocy.yml
+- import_playbook: mylar3/SetupMylar3.yml
 
