@@ -1,0 +1,28 @@
+# Run with
+# ansible-playbook SetupCops.yml
+# https://blog.slucas.fr/projects/calibre-opds-php-server/
+
+---
+- name: Setup Cops
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/cops
+      - /mnt/DockerSwarmData/cops/config
+      - /mnt/DockerSwarmData/cops/books
+
+  - name: Deploy Cops from a compose file
+    docker_stack:
+      state: present
+      name: cops
+      compose:
+        - docker-compose.yml

@@ -1,0 +1,19 @@
+version: "3"
+services:
+  cops:
+    image: lscr.io/linuxserver/cops:latest
+    container_name: cops
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /opt/DockerSwarmData/cops/config:/config
+      - /opt/DockerSwarmData/cops/books:/books
+    ports:
+      - 8800:80
+    restart: unless-stopped
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client2
