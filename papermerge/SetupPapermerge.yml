@@ -1,0 +1,28 @@
+# Run with
+# ansible-playbook SetupPapermerge.yml
+# https://www.papermerge.com/
+
+---
+- name: Setup Papermerge
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/papermerge
+      - /mnt/DockerSwarmData/papermerge/config
+      - /mnt/DockerSwarmData/papermerge/data
+
+  - name: Deploy Papermerge from a compose file
+    docker_stack:
+      state: present
+      name: papermerge
+      compose:
+        - docker-compose.yml

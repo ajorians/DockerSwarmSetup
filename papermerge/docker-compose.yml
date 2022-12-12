@@ -1,0 +1,20 @@
+version: "3"
+services:
+  papermerge:
+    image: lscr.io/linuxserver/papermerge:latest
+    container_name: papermerge
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+#      - REDIS_URL= #optional
+    volumes:
+      - /opt/DockerSwarmData/papermerge/config:/config
+      - /opt/DockerSwarmData/papermerge/data:/data
+    ports:
+      - 8900:8000
+    restart: unless-stopped
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client2
