@@ -34,4 +34,5 @@
 - import_playbook: sabnzbd/SetupSabnzbd.yml 
 - import_playbook: mstream/SetupMstream.yml
 - import_playbook: xbackbone/SetupXBackBone.yml
+- import_playbook: grocy/SetupGrocy.yml
 

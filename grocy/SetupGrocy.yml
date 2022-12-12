@@ -1,0 +1,27 @@
+# Run with
+# ansible-playbook SetupGrocy.yml
+# https://github.com/grocy/grocy
+
+---
+- name: Setup Grocy
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/grocy
+      - /mnt/DockerSwarmData/grocy/config
+
+  - name: Deploy Grocy from a compose file
+    docker_stack:
+      state: present
+      name: grocy
+      compose:
+        - docker-compose.yml
