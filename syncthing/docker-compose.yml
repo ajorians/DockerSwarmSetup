@@ -1,0 +1,24 @@
+version: "3"
+services:
+  syncthing:
+    image: lscr.io/linuxserver/syncthing:latest
+    container_name: syncthing
+    hostname: syncthing #optional
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /opt/DockerSwarmData/syncthing/config:/config
+      - /opt/DockerSwarmData/syncthing/data1:/data1
+      - /opt/DockerSwarmData/syncthing/data2:/data2
+    ports:
+      - 9100:8384
+      - 9101:22000/tcp
+      - 9102:22000/udp
+      - 9103:21027/udp
+    restart: unless-stopped
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client3

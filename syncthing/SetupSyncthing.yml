@@ -1,0 +1,29 @@
+# Run with
+# ansible-playbook SetupSyncthing.yml
+# https://syncthing.net/
+
+---
+- name: Setup Syncthing
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/syncthing
+      - /mnt/DockerSwarmData/syncthing/config
+      - /mnt/DockerSwarmData/syncthing/data1
+      - /mnt/DockerSwarmData/syncthing/data2
+
+  - name: Deploy Syncthing from a compose file
+    docker_stack:
+      state: present
+      name: syncthing
+      compose:
+        - docker-compose.yml
