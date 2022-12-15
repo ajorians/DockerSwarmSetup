@@ -38,4 +38,5 @@
 - import_playbook: mylar3/SetupMylar3.yml
 - import_playbook: raneto/SetupRaneto.yml
 - import_playbook: papermerge/SetupPapermerge.yml
+- import_playbook: jellyfin/SetupJellyfin.yml
 

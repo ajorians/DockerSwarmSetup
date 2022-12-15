@@ -1,0 +1,29 @@
+# Run with
+# ansible-playbook SetupJellyfin.yml
+# https://jellyfin.org/
+
+---
+- name: Setup Jellyfin
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/jellyfin
+      - /mnt/DockerSwarmData/jellyfin/config
+      - /mnt/DockerSwarmData/jellyfin/tvshows
+      - /mnt/DockerSwarmData/jellyfin/movies
+
+  - name: Deploy Jellyfin from a compose file
+    docker_stack:
+      state: present
+      name: jellyfin
+      compose:
+        - docker-compose.yml
