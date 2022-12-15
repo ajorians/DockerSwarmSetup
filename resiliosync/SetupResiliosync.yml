@@ -1,0 +1,29 @@
+# Run with
+# ansible-playbook SetupResiliosync.yml
+# https://www.resilio.com/individuals/
+
+---
+- name: Setup Resilio-Sync
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/resiliosync
+      - /mnt/DockerSwarmData/resiliosync/config
+      - /mnt/DockerSwarmData/resiliosync/downloads
+      - /mnt/DockerSwarmData/resiliosync/sync
+
+  - name: Deploy Resilio-Sync from a compose file
+    docker_stack:
+      state: present
+      name: resiliosync
+      compose:
+        - docker-compose.yml
