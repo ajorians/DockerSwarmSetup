@@ -1,0 +1,27 @@
+# Run with
+# ansible-playbook SetupUptimeKuma.yml
+# https://github.com/louislam/uptime-kuma
+
+---
+- name: Setup Uptime Kuma
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/uptimekuma
+      - /mnt/DockerSwarmData/uptimekuma/config
+
+  - name: Deploy uptimekuma from a compose file
+    docker_stack:
+      state: present
+      name: uptimekuma
+      compose:
+        - docker-compose.yml
