@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+  birthdays:
+    image: ghcr.io/ajorians/birthdays:latest
+    container_name: birthdays
+    ports:
+      - "9400:80"
+    environment:
+      - DATABASE_HOST=host
+      - DATABASE_USER=birthdayuser
+      - DATABASE_PASSWD=birthdaypasswd
+      - DATABASE_DB=birthdaydb
+    restart: unless-stopped
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client1

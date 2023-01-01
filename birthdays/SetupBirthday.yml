@@ -1,0 +1,33 @@
+# Run with
+# ansible-playbook SetupBirthday.yml
+# https://github.com/ajorians/birthdays
+
+---
+- name: Setup birthday
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create Database
+    community.mysql.mysql_db:
+      login_user: root
+      name:
+        - birthdaydb
+      state: present
+
+  - name: Grant user access
+    community.mysql.mysql_user:
+      login_user: root
+      state: present
+      name: birthdayuser
+      host: '%'
+      password: birthdaypasswd
+      priv:
+        'birthdaydb.*': 'ALL,GRANT'
+
+  - name: Deploy birthday from a compose file
+    docker_stack:
+      state: present
+      name: birthday
+      compose:
+        - docker-compose.yml
