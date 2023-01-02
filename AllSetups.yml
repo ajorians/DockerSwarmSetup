@@ -42,4 +42,5 @@
 - import_playbook: syncthing/SetupSyncthing.yml
 - import_playbook: resiliosync/SetupResiliosync.yml
 - import_playbook: birthdays/SetupBirthday.yml
+- import_playbook: monica/SetupMonica.yml
 

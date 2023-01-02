@@ -1,0 +1,22 @@
+version: "3.4"
+
+services:
+  app:
+    image: monica
+    ports:
+      - 9500:80
+    environment:
+      - APP_KEY=base64:zTb9MopMfZTyEw4UaJ4i+uw/iSWbwHHa6SEML3RVSBg=
+      - DB_HOST=host
+      - DB_USERNAME=monicauser
+      - DB_PASSWORD=dbpassword
+    volumes:
+      - data:/opt/DockerSwarmData/monica/storage
+    restart: always
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client1
+volumes:
+  data:
+    name: data
