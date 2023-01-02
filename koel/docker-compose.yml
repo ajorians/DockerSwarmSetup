@@ -1,0 +1,30 @@
+version: "3.4"
+
+services:
+  koel:
+    image: phanan/koel
+    ports:
+      - 9600:80
+    environment:
+      - DB_CONNECTION=mysql
+      - DB_HOST=host
+      - DB_USERNAME=koeluser
+      - DB_PASSWORD=dbassword
+      - DB_DATABASE=koel
+    volumes:
+      - music:/opt/DockerSwarmData/koel/music
+      - covers:/opt/DockerSwarmData/koel/covers
+      - search_index:/opt/DockerSwarmData/koel/search-indexes
+    restart: always
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client1
+volumes:
+  music:
+    name: music
+  covers:
+    name: covers
+  search_index:
+    name: search_index
+

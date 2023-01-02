@@ -1,0 +1,48 @@
+# Run with
+# ansible-playbook SetupKoel.yml
+# https://koel.dev/
+
+---
+- name: Setup Koel
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/koel
+      - /mnt/DockerSwarmData/koel/music
+      - /mnt/DockerSwarmData/koel/covers
+      - /mnt/DockerSwarmData/koel/search-indexes
+
+  - name: Create Database
+    community.mysql.mysql_db:
+      login_user: root
+      name:
+        - koel
+      state: present
+
+  - name: Grant user access
+    community.mysql.mysql_user:
+      login_user: root
+      state: present
+      name: koeluser
+      host: '%'
+      password: dbpassword 
+      priv:
+        'koel.*': 'ALL,GRANT'
+
+  - name: Deploy Koel from a compose file
+    docker_stack:
+      state: present
+      name: koel
+      compose:
+        - docker-compose.yml
+
+# Then needs some first run stuff done: https://github.com/koel/docker#first-run
