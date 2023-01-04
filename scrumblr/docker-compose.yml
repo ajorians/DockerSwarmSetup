@@ -1,0 +1,15 @@
+version: "3"
+services:
+  scrumblr:
+    image: ghcr.io/ajorians/scrumblr-docker:latest
+    container_name: scrumblr
+    environment:
+      - SCRUMBLR_REDIS_URL="redis://192.160.0.60"
+      - SCRUMBLR_PORT="80"
+    ports:
+      - 9700:80
+    restart: unless-stopped
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client2

@@ -1,0 +1,27 @@
+# Run with
+# ansible-playbook SetupScrumblr.yml
+# http://scrumblr.ca/
+
+---
+- name: Setup Scrumblr
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/scrumblr
+
+  - name: Deploy Scrumblr from a compose file
+    docker_stack:
+      state: present
+      name: scrumblr
+      compose:
+        - docker-compose.yml
+

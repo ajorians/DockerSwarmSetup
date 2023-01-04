@@ -44,4 +44,5 @@
 - import_playbook: birthdays/SetupBirthday.yml
 - import_playbook: monica/SetupMonica.yml
 - import_playbook: koel/SetupKoel.yml
+- import_playbook: scrumblr/SetupScrumblr.yml
 
