@@ -1,0 +1,14 @@
+version: "3"
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    volumes:
+      - /opt/DockerSwarmData/vaultwarden/data:/data
+    ports:
+      - 9800:80
+    restart: unless-stopped
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client2

@@ -1,0 +1,27 @@
+# Run with
+# ansible-playbook SetupVaultwarden.yml
+# https://github.com/dani-garcia/vaultwarden
+
+---
+- name: Setup Vaultwarden
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/vaultwarden
+      - /mnt/DockerSwarmData/vaultwarden/data
+
+  - name: Deploy Vaultwarden from a compose file
+    docker_stack:
+      state: present
+      name: vaultwarden
+      compose:
+        - docker-compose.yml
