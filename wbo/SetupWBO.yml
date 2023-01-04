@@ -1,0 +1,27 @@
+# Run with
+# ansible-playbook SetupWBO.yml
+# https://wbo.ophir.dev/
+
+---
+- name: Setup WBO
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/wbo
+
+  - name: Deploy WBO from a compose file
+    docker_stack:
+      state: present
+      name: wbo
+      compose:
+        - docker-compose.yml
+

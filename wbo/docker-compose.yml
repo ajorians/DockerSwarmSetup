@@ -1,0 +1,14 @@
+version: "3"
+services:
+  wbo:
+    image: lovasoa/wbo:latest
+    container_name: wbo
+    volumes:
+      - /opt/DockerSwarmData/wbo:/opt/app/server-data
+    ports:
+      - 10000:80
+    restart: unless-stopped
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client2
