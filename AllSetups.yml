@@ -46,4 +46,5 @@
 - import_playbook: koel/SetupKoel.yml
 - import_playbook: scrumblr/SetupScrumblr.yml
 - import_playbook: vaultwarden/SetupVaultwarden.yml
+- import_playbook: n8n/SetupN8n.yml
 

@@ -1,0 +1,21 @@
+version: "3"
+services:
+  n8n:
+    image: n8nio/n8n
+    container_name: n8n
+    environment:
+      - DB_TYPE=mysqldb
+      - DB_MYSQLDB_DATABASE=n8n
+      - DB_MYSQLDB_HOST=192.168.0.60
+      - DB_MYSQLDB_PORT=3306
+      - DB_MYSQLDB_USER=n8nuser
+      - DB_MYSQLDB_PASSWORD=dbpassword
+    volumes:
+      - /opt/DockerSwarmData/n8n:/home/node/.n8n
+    ports:
+      - 9900:5678
+    restart: unless-stopped
+    deploy:
+            placement:
+                constraints:
+                    - node.hostname == client2

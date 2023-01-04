@@ -1,0 +1,44 @@
+# Run with
+# ansible-playbook SetupN8n.yml
+# https://n8n.io/
+
+---
+- name: Setup N8n
+  hosts: localhost
+  connection: local
+  tasks:
+
+  - name: Create directory for data
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: ajorians
+      group: users
+      mode: 0777
+    loop:
+      - /mnt/DockerSwarmData/n8n
+
+  - name: Create Database
+    community.mysql.mysql_db:
+      login_user: root
+      name:
+        - n8n
+      state: present
+
+  - name: Grant user access
+    community.mysql.mysql_user:
+      login_user: root
+      state: present
+      name: n8nuser
+      host: '%'
+      password: dbpassword
+      priv:
+        'n8n.*': 'ALL,GRANT'
+
+  - name: Deploy N8n from a compose file
+    docker_stack:
+      state: present
+      name: n8n
+      compose:
+        - docker-compose.yml
+
